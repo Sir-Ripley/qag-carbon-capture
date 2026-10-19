@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hybrid Bio-Acoustic Carbon Capture &amp; O₂ Synthesis — R&amp;D Droids</title>
+<meta name="description" content="Redefining autotrophic carbon fixation: heavy-water extremophile bioreactors, 0.70 MHz piezo-photocatalysis, and QAG virology vector engineering. Honest data, verified simulations.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<style>
+:root{
+  --bg:#070B12; --card:#101926; --card2:#0c141f; --line:#1d2b40;
+  --txt:#e9f4f8; --dim:#8b98ad;
+  --cyan:#00F0FF; --green:#00E676; --amber:#FFAB00; --violet:#9d7bff; --red:#ff6b7a;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(1100px 500px at 50% -8%, #0d1a2e 0%, var(--bg) 60%) fixed, var(--bg);
+  color:var(--txt); font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif; line-height:1.65}
+h1,h2,h3,h4{font-family:"Space Grotesk",Inter,sans-serif; line-height:1.25}
+h2{font-size:clamp(1.3rem,4vw,1.8rem); color:var(--cyan); margin-bottom:.5rem}
+h3{font-size:1.08rem; color:var(--txt); margin:1.2rem 0 .4rem}
+p{margin:.55rem 0; color:#c6d2e2}
+a{color:var(--cyan)}
+.wrap{max-width:1020px; margin:0 auto; padding:0 1.1rem}
+/* badges */
+.badge{display:inline-block; font-size:.68rem; font-weight:700; letter-spacing:.08em; border-radius:999px;
+  padding:.18rem .65rem; margin:.15rem .2rem .15rem 0; vertical-align:middle; white-space:nowrap}
+.b-emp{background:rgba(0,230,118,.13); color:var(--green); border:1px solid rgba(0,230,118,.45)}
+.b-sim{background:rgba(0,240,255,.12); color:var(--cyan); border:1px solid rgba(0,240,255,.45)}
+.b-qag{background:rgba(157,123,255,.13); color:var(--violet); border:1px solid rgba(157,123,255,.5)}
+.b-both{background:rgba(0,230,118,.13); color:var(--green); border:1px solid rgba(0,240,255,.5)}
+/* ticker */
+.ticker{position:sticky; top:0; z-index:50; background:rgba(7,11,18,.94); backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line)}
+.ticker .wrap{display:flex; gap:1.4rem; overflow-x:auto; padding:.55rem 1.1rem; scrollbar-width:none}
+.ticker .wrap::-webkit-scrollbar{display:none}
+.tick{white-space:nowrap; font-size:.8rem; color:var(--dim); font-family:"JetBrains Mono",monospace}
+.tick strong{color:var(--txt)}
+/* hero */
+header.hero{padding:3.2rem 0 2.2rem; text-align:center}
+.tagline{font-size:.72rem; letter-spacing:.22em; color:var(--cyan); border:1px solid var(--line);
+  display:inline-block; padding:.35rem 1rem; border-radius:999px; margin-bottom:1.1rem; background:#0a1420}
+header.hero h1{font-size:clamp(1.7rem,5.5vw,2.9rem);
+  background:linear-gradient(92deg,var(--cyan),var(--green)); -webkit-background-clip:text; background-clip:text; color:transparent}
+.sub{max-width:720px; margin:1rem auto; color:#c6d2e2; font-size:clamp(.95rem,2.6vw,1.1rem)}
+.cta-row{display:flex; gap:.7rem; justify-content:center; flex-wrap:wrap; margin-top:1.3rem}
+.btn{display:inline-block; padding:.75rem 1.6rem; border-radius:999px; font-weight:600; font-size:.95rem;
+  text-decoration:none; transition:transform .15s ease}
+.btn-primary{background:linear-gradient(90deg,var(--cyan),var(--green)); color:#04121a}
+.btn-ghost{border:1px solid var(--line); color:var(--txt); background:var(--card)}
+.btn:hover{transform:translateY(-2px)}
+.hero-svg{max-width:760px; margin:2rem auto 0; background:var(--card2); border:1px solid var(--line);
+  border-radius:14px; padding:1rem}
+.hero-svg svg{width:100%; height:auto; display:block}
+.wave{animation:waveUp 2.2s ease-in-out infinite}
+@keyframes waveUp{0%,100%{opacity:.25}50%{opacity:.95}}
+.bubble{animation:rise 3.5s ease-in infinite}
+@keyframes rise{0%{transform:translateY(0); opacity:0}25%{opacity:.9}100%{transform:translateY(-46px); opacity:0}}
+/* sections */
+section.block{padding:2.6rem 0; border-top:1px solid var(--line)}
+.eli5{background:#0a1420; border:1px solid var(--line); border-left:3px solid var(--green); border-radius:10px;
+  padding:1rem 1.2rem; margin:1rem 0; font-size:.95rem; text-align:left}
+.eli5 strong{color:var(--green)}
+.small{font-size:.84rem; color:var(--dim)}
+.caveat{font-size:.82rem; color:var(--dim); border-top:1px dashed var(--line); margin-top:1.2rem; padding-top:.8rem}
+/* audit cards */
+.audit-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:.9rem; margin-top:1.1rem}
+.audit-card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.1rem 1.2rem}
+.audit-card h4{color:var(--cyan); font-size:1rem; margin-bottom:.4rem}
+.audit-card .track{margin-top:.7rem; padding-top:.7rem; border-top:1px dashed var(--line); font-size:.88rem}
+.audit-card .track b{display:block; font-size:.75rem; letter-spacing:.08em; text-transform:uppercase; margin-bottom:.25rem}
+/* pillar tabs */
+.ptabs{display:flex; gap:.45rem; flex-wrap:wrap; margin:1.1rem 0}
+.ptabs button{background:var(--card); color:var(--dim); border:1px solid var(--line); border-radius:10px;
+  padding:.65rem 1rem; font-size:.88rem; cursor:pointer; font-family:inherit}
+.ptabs button.active{color:#04121a; background:var(--cyan); border-color:var(--cyan); font-weight:700}
+.ppanel{display:none; background:var(--card); border:1px solid var(--line); border-radius:0 12px 12px 12px; padding:1.3rem}
+.ppanel.active{display:block}
+canvas.chart{width:100%; display:block; background:#070c15; border:1px solid var(--line); border-radius:10px; margin-top:.8rem}
+.math{background:#070c15; border:1px solid var(--line); border-left:3px solid var(--violet); border-radius:8px;
+  padding:.7rem 1rem; margin:.7rem 0; overflow-x:auto; font-size:1.02rem}
+.callouts{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:.6rem; margin-top:.9rem}
+.callout{background:#0a1420; border:1px solid var(--line); border-radius:10px; padding:.65rem .8rem; text-align:center}
+.callout .v{font-size:1.25rem; font-weight:700; color:var(--cyan); font-family:"JetBrains Mono",monospace}
+.callout .k{font-size:.72rem; color:var(--dim); text-transform:uppercase; letter-spacing:.07em; margin-top:.2rem}
+table.data{width:100%; border-collapse:collapse; margin:1rem 0; font-size:.82rem}
+table.data th, table.data td{padding:.5rem .55rem; text-align:left; border-bottom:1px solid var(--line)}
+table.data th{color:var(--cyan); font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; cursor:pointer; user-select:none}
+table.data td.num{font-variant-numeric:tabular-nums; text-align:right; font-family:"JetBrains Mono",monospace}
+table.data tr:hover td{background:rgba(0,240,255,.04)}
+.secure{color:var(--green); font-weight:700}
+.table-wrap{overflow-x:auto}
+/* hardware */
+.hw-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:.9rem; margin-top:1rem}
+.hw-card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.1rem}
+.hw-card h4{color:var(--cyan); margin-bottom:.3rem}
+.diagram{background:#070c15; border:1px solid var(--line); border-radius:10px; padding:.8rem; margin:.8rem 0}
+.diagram svg{width:100%; height:auto; display:block}
+.diagram .cap{font-size:.78rem; color:var(--dim); margin-top:.4rem; text-align:center}
+.spec-list{list-style:none; font-size:.87rem}
+.spec-list li{padding:.35rem 0; border-bottom:1px dashed var(--line); color:#c6d2e2}
+.spec-list b{color:var(--txt)}
+/* code drawer */
+details.code{margin:.7rem 0; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden}
+details.code summary{cursor:pointer; padding:.85rem 1.1rem; font-weight:600; color:var(--cyan); list-style:none}
+details.code summary::-webkit-details-marker{display:none}
+details.code summary::before{content:"▸ "; color:var(--dim)}
+details.code[open] summary::before{content:"▾ "}
+.code-body{position:relative; border-top:1px solid var(--line)}
+.code-body pre{padding:1rem 1.1rem; overflow-x:auto; font-family:"JetBrains Mono",monospace; font-size:.78rem;
+  line-height:1.55; color:#d5e2f2; max-height:420px; overflow-y:auto}
+.copy-btn{position:absolute; top:.5rem; right:.5rem; background:#0a1420; border:1px solid var(--line); color:var(--dim);
+  border-radius:8px; padding:.35rem .8rem; font-size:.75rem; cursor:pointer; font-family:inherit}
+.copy-btn:hover{color:var(--cyan); border-color:var(--cyan)}
+/* IP accordion */
+details.ip{margin:.6rem 0; background:var(--card); border:1px solid var(--line); border-radius:10px}
+details.ip summary{cursor:pointer; padding:.8rem 1.1rem; font-weight:600; list-style:none}
+details.ip summary::-webkit-details-marker{display:none}
+details.ip .ip-body{padding:0 1.1rem 1rem; font-size:.9rem; color:#c6d2e2}
+/* contact */
+.contact-card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:1.8rem 1.4rem;
+  text-align:center; margin-top:1.2rem}
+.contact-card h3{color:var(--cyan)}
+footer{padding:2rem 0 2.6rem; text-align:center; color:var(--dim); font-size:.82rem; border-top:1px solid var(--line)}
+@media (prefers-reduced-motion: reduce){ .wave,.bubble{animation:none !important} html{scroll-behavior:auto} }
+@media (max-width:600px){ .ppanel{padding:.9rem} }
+</style>
+</head>
+<body>
+
+<!-- sticky telemetry ticker -->
+<div class="ticker" role="marquee" aria-label="Live key metrics">
+  <div class="wrap">
+    <span class="tick"><strong>3.820</strong> g CO₂/(g·h) <span class="badge b-sim">DIGITAL TWIN</span></span>
+    <span class="tick"><strong>8.50×</strong> lipid ceiling <span class="badge b-both">EMPIRICAL &amp; SIMULATED</span></span>
+    <span class="tick"><strong>0.70 MHz</strong> · 98.0% match <span class="badge b-sim">DIGITAL TWIN</span></span>
+    <span class="tick"><strong>10×</strong> nozzle gain · 20.00 MPa tip <span class="badge b-sim">DIGITAL TWIN</span></span>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="tagline">PATENT PENDING ARCHITECTURE&nbsp;&nbsp;|&nbsp;&nbsp;R&amp;R DROIDS</div>
+    <h1>Hybrid Bio-Acoustic Carbon Capture &amp; O<sub>2</sub> Synthesis</h1>
+    <p class="sub">Bypassing terrestrial photosynthetic bottlenecks through heavy-water mitotic arrest, BiFeO<sub>3</sub> piezo-photocatalysis, and distributed evolutionary bio-engineering.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#pillars">Explore the 4-Pillar Data</a>
+      <a class="btn btn-ghost" href="https://github.com/Sir-Ripley/qag-carbon-capture/tree/main/docs">Download Blueprint V4 Dossier</a>
+      <a class="btn btn-ghost" href="#hardware">View CAD Specs</a>
+    </div>
+    <div class="eli5" style="text-align:left; max-width:760px; margin-left:auto; margin-right:auto">
+      <strong>The 30-second version:</strong> Algae already eat CO₂ — but slowly. We put extremophile algae in <strong>heavy water</strong> so they stop dividing and just gorge on carbon (8× fatter), blast them with a <strong>0.70&nbsp;MHz sound wave</strong> that force-feeds them dissolved CO₂, and use harmless <strong>viral delivery trucks</strong> to install a turbo enzyme — then clear the trucks with a radio-frequency kill switch. Every number below is labeled: <span class="badge b-emp">measured in labs</span>, <span class="badge b-sim">proven in our 10M-cell simulation</span>, or <span class="badge b-qag">derived from theory</span>. No mixing, no hiding.
+    </div>
+    <div class="hero-svg">
+      <svg viewBox="0 0 720 340" role="img" aria-label="Phase 1 titanium bioreactor cross-section with 0.70 MHz standing wave">
+        <defs>
+          <linearGradient id="d2o" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0e5f6e"/><stop offset="100%" stop-color="#083b46"/>
+          </linearGradient>
+          <linearGradient id="upper" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#123a5e"/><stop offset="100%" stop-color="#0d2740"/>
+          </linearGradient>
+        </defs>
+        <text x="360" y="24" fill="#8b98ad" font-size="13" text-anchor="middle">Phase 1 — Titanium Grade 5 bioreactor (50 L, 25 MPa)</text>
+        <!-- vessel -->
+        <rect x="210" y="40" width="300" height="250" rx="18" fill="none" stroke="#5b6a8f" stroke-width="10"/>
+        <rect x="222" y="52" width="276" height="226" rx="10" fill="url(#upper)"/>
+        <!-- D2O base layer -->
+        <rect x="222" y="196" width="276" height="82" fill="url(#d2o)" opacity=".92"/>
+        <text x="360" y="248" fill="#00F0FF" font-size="12" text-anchor="middle" opacity=".9">D₂O base layer (70–90%)</text>
+        <text x="360" y="120" fill="#8b98ad" font-size="12" text-anchor="middle">light-isotope upper suspension</text>
+        <!-- algae dots -->
+        <g fill="#00E676" opacity=".8">
+          <circle cx="280" cy="100" r="4"/><circle cx="330" cy="140" r="5"/><circle cx="400" cy="95" r="4"/>
+          <circle cx="450" cy="150" r="5"/><circle cx="300" cy="165" r="4"/><circle cx="380" cy="170" r="5"/>
+          <circle cx="430" cy="120" r="4"/><circle cx="260" cy="140" r="4"/>
+        </g>
+        <!-- nozzle -->
+        <polygon points="340,278 380,278 368,306 352,306" fill="#1d2b40" stroke="#00F0FF" stroke-width="1.5"/>
+        <rect x="330" y="306" width="60" height="14" rx="3" fill="#1d2b40" stroke="#00F0FF" stroke-width="1.5"/>
+        <text x="360" y="334" fill="#00F0FF" font-size="11" text-anchor="middle">LiNbO₃ nozzle · 0.70 MHz</text>
+        <!-- standing wave -->
+        <g stroke="#00F0FF" fill="none" stroke-width="2.5">
+          <path class="wave" d="M300,270 Q330,250 360,270 T420,270" opacity=".7"/>
+          <path class="wave" style="animation-delay:.4s" d="M310,240 Q340,220 370,240 T430,240" opacity=".55"/>
+          <path class="wave" style="animation-delay:.8s" d="M320,210 Q350,190 380,210 T440,210" opacity=".4"/>
+          <path class="wave" style="animation-delay:1.2s" d="M330,180 Q360,160 390,180 T450,180" opacity=".28"/>
+        </g>
+        <!-- cavitation bubbles -->
+        <g fill="#00F0FF">
+          <circle class="bubble" cx="340" cy="260" r="3" opacity=".8"/>
+          <circle class="bubble" style="animation-delay:1.1s" cx="385" cy="265" r="2.4" opacity=".8"/>
+          <circle class="bubble" style="animation-delay:2.2s" cx="360" cy="258" r="2" opacity=".8"/>
+        </g>
+        <text x="120" y="120" fill="#8b98ad" font-size="11" text-anchor="middle">15 mm</text>
+        <text x="120" y="134" fill="#8b98ad" font-size="11" text-anchor="middle">Ti-6Al-4V</text>
+        <text x="120" y="148" fill="#8b98ad" font-size="11" text-anchor="middle">wall</text>
+      </svg>
+      <div class="cap" style="font-size:.78rem;color:var(--dim);margin-top:.4rem">Schematic cross-section — 0.70 MHz standing wave propagates upward from the bottom-center nozzle into the dual-layer medium.</div>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ============ SECTION 1: METHODOLOGY & AUDIT ============ -->
+<section class="block" id="method">
+  <div class="wrap">
+    <h2>Transparent methodology &amp; dual-track energy audit <span class="badge b-emp">EMPIRICAL BASELINE</span></h2>
+    <p>We audit our own hypotheses against chemical kinetics and thermodynamics — in public, before investors or reviewers ask. Each module states what is verified and what remains exploratory theory.</p>
+    <div class="audit-grid">
+      <div class="audit-card">
+        <h4>Heavy-water (D₂O) biology</h4>
+        <p class="small">70–90% D₂O leverages the kinetic isotope effect (k<sub>H₂O</sub>/k<sub>D₂O</sub> &gt; 1): cytokinesis arrests while autotrophic fixation continues → 8-fold lipid/starch over-accumulation <span class="badge b-emp">EMPIRICAL</span></p>
+        <div class="track"><b style="color:var(--violet)">Exploratory QAG track</b>D₂O as isotopic "stubborn jello mold" — a Marcus reorganization-energy buffer shielding RuBisCO/CA II from cavitation lysis. <span class="badge b-qag">THEORETICAL</span></div>
+      </div>
+      <div class="audit-card">
+        <h4>Sonochemical catalysis</h4>
+        <p class="small">0.70 MHz excitation shreds stagnant boundary layers → CO₂ mass-transfer (k<sub>L</sub>a) surge. BiFeO₃ nanosheets (bandgap ≈ 2.2 eV) generate piezopotentials under ultrasonic strain: 124.1 µmol g⁻¹ h⁻¹ H₂ + ·OH / ·O₂⁻ radicals. <span class="badge b-emp">EMPIRICAL</span></p>
+        <div class="track"><b style="color:var(--violet)">Audit clarification</b>Acoustic pressure alone does not polymerize CO₂ — piezogenerated e⁻/h⁺ pairs are directed through oxygen-vacancy BiFeO₃ + transition-metal co-catalysts to drive CO₂ → C<sub>n</sub>. <span class="badge b-qag">THEORETICAL</span></div>
+      </div>
+      <div class="audit-card">
+        <h4>Facility power architecture</h4>
+        <p class="small"><b style="color:var(--green)">Track A — commercial baseline:</b> standard industrial off-grid solar/renewable microgrids with rigorous parasitic mass/energy balances for pumps + IDT drivers. This is the track for investors and peer review. <span class="badge b-emp">EMPIRICAL</span></p>
+        <div class="track"><b style="color:var(--violet)">Track B — QVR-Zero theoretical stack:</b> 24-node toroidal Quantum Vacuum Resonator at 12° tilt, modeling a theoretical COP of 1250× via centripetal vacuum polarization. R&amp;D horizon only. <span class="badge b-qag">THEORETICAL</span></div>
+      </div>
+    </div>
+    <p class="caveat"><strong>Why this section exists:</strong> an internal comparative audit (see <a href="https://github.com/Sir-Ripley/qag-carbon-capture/blob/main/docs/EMPIRICAL_AUDIT.md">docs/EMPIRICAL_AUDIT.md</a>) forced real corrections — over-unity energy claims were excised from peer-facing material, CO₂ polymerization now requires co-catalysts, and the f<sub>kill</sub> clearing signal was reclassified into its correct (microwave C-band) physics. We publish the misses too.</p>
+  </div>
+</section>
+
+<!-- ============ SECTION 2: 4-PILLAR DATA HUB ============ -->
+<section class="block" id="pillars">
+  <div class="wrap">
+    <h2>The 4-pillar computational digital twin <span class="badge b-sim">DIGITAL TWIN SIMULATION</span></h2>
+    <p>Before steel is cut, the thermodynamics and biology were validated on a 10-million-cell Apache Spark digital twin. Toggle the pillars — every chart below is drawn live in your browser from the published datasets.</p>
+    <div class="ptabs" role="tablist">
+      <button class="active" data-ptab="p1" role="tab">Pillar 1 · Acoustic sweep</button>
+      <button data-ptab="p2" role="tab">Pillar 2 · Virology screening</button>
+      <button data-ptab="p3" role="tab">Pillar 3 · Evolution run</button>
+      <button data-ptab="p4" role="tab">Pillar 4 · Control loop</button>
+    </div>
+
+    <!-- PILLAR 1 -->
+    <div class="ppanel active" id="pp-p1">
+      <h3>Acoustic mass-transfer &amp; material fatigue sweep <span class="badge b-sim">DIGITAL TWIN</span></h3>
+      <p class="small">Heatmap: baseline hydrostatic pressure P₀ (15–25 MPa) × acoustic amplitude P<sub>ac</sub> (1–20 MPa) → effective carbon fixation rate. The sweet spot sits just before enzymatic shear denaturation collapses the curve. Marker = grid optimum.</p>
+      <canvas class="chart" id="heatmap" height="360" aria-label="Pillar 1 heatmap"></canvas>
+      <div class="math tex">k_L a(P_{ac}, P_0) = \sqrt{\frac{4 D_{CO_2/D_2O}\, \omega}{\pi}}\left(1 + \frac{P_{ac}}{P_0}\right) a_v</div>
+      <p class="small">D<sub>CO₂/D₂O</sub> = 1.62×10⁻⁹ m²/s · ω = 2π(0.70×10⁶) rad/s · a<sub>v</sub> ≈ 1500 m²/m³</p>
+      <div class="math tex">\eta_{enzyme} = \exp\left(-\beta \max\left(0, \frac{P_{ac}}{P_0} - \theta_c\right)^2\right) \quad (\theta_c \approx 0.65,\; \beta \approx 0.45)</div>
+      <div class="math tex">\sigma_a = \alpha_{coupling} P_{ac} \;\; \implies \;\; N_f = \frac{1}{2}\left(\frac{\sigma_a}{\sigma_f'}\right)^{1/b} \quad (\alpha \approx 0.42,\; \sigma_e \approx 48.0\ \mathrm{MPa})</div>
+      <div class="callouts">
+        <div class="callout"><div class="v">17.07</div><div class="k">MPa · optimal P₀*</div></div>
+        <div class="callout"><div class="v">20.00</div><div class="k">MPa · optimal P<sub>ac</sub>*</div></div>
+        <div class="callout"><div class="v">3.8267</div><div class="k">s⁻¹ · peak k<sub>L</sub>a</div></div>
+        <div class="callout"><div class="v">2.404</div><div class="k">g/g/h · peak fixation</div></div>
+        <div class="callout"><div class="v">88.5%</div><div class="k">enzyme survival</div></div>
+        <div class="callout"><div class="v">&gt;10¹²</div><div class="k">cycles · fatigue life</div></div>
+      </div>
+      <p class="small">Verify it yourself: <span style="font-family:'JetBrains Mono',monospace">python3 tools/pillar1_acoustic_sweep.py</span> in the repo reproduces every callout.</p>
+    </div>
+
+    <!-- PILLAR 2 -->
+    <div class="ppanel" id="pp-p2">
+      <h3>High-throughput QAG virology vector screening <span class="badge b-qag">THEORETICAL QAG MODEL</span></h3>
+      <p class="small">Ten candidate viral vectors and subunits, each with a computed non-thermal disruptive frequency (f<sub>kill</sub>) and host safety margin lock. Click any column header to sort. The amber line is the 20.0 mV minimum safety threshold — every vector clears it.</p>
+      <canvas class="chart" id="zetaBars" height="340" aria-label="Safety margin bar chart"></canvas>
+      <div class="table-wrap"><table class="data" id="vectorTable">
+        <thead><tr><th data-k="0">Vector ⇅</th><th data-k="1">PDB ⇅</th><th data-k="2" class="num">MW (kDa) ⇅</th><th data-k="3" class="num">Z<sub>v</sub> ⇅</th><th data-k="4" class="num">f<sub>kill</sub> (MHz) ⇅</th><th data-k="5" class="num">ζ<sub>v</sub> (mV) ⇅</th><th data-k="6" class="num">Δζ (mV) ⇅</th><th>Status</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+      <div class="math tex">Z_v = \frac{MW_{\mathrm{kDa}} \cdot \rho_{\mathrm{proxy}}}{K_{ASB}}, \quad f_{\mathrm{kill}} = \left(\frac{f_H}{\Phi}\right) \log_{10}(Z_v + 1)</div>
+      <div class="math tex">\zeta_v = -15.0 - 10.0 \sin(f_{\mathrm{kill}} \cdot 10^6 \cdot t_{\mathrm{pixel}}), \quad \Delta\zeta = |\zeta_{\mathrm{host}} - \zeta_v| \ge 20.0\ \mathrm{mV}</div>
+      <p class="small">f<sub>H</sub> = 1420.405 MHz · Φ = 1.194797 · K<sub>ASB</sub> = 0.013829 · t<sub>pixel</sub> = 3.41×10⁻⁷ s · ζ<sub>host</sub> ≈ −55.0 mV. Reproduce: <span style="font-family:'JetBrains Mono',monospace">python3 tools/qag_virology_sim.py</span></p>
+    </div>
+
+    <!-- PILLAR 3 -->
+    <div class="ppanel" id="pp-p3">
+      <h3>Distributed evolutionary Monte Carlo — 10⁷ virtual cells <span class="badge b-sim">DIGITAL TWIN</span></h3>
+      <p class="small">500 generations in 72 hours (partition-optimized island-biogeography run, <span style="font-family:'JetBrains Mono',monospace">rdd.mapPartitions()</span>, 100 partitions). Lines are normalized to each metric's maximum — hover the chart for exact values. The honest engineering note: the first unoptimized run (22.50 MPa ramp, 10 discrete steps) underperformed; this is the run that worked.</p>
+      <canvas class="chart" id="evoChart" height="360" aria-label="Evolution run chart"></canvas>
+      <div class="callouts">
+        <div class="callout"><div class="v">3.820</div><div class="k">g/g/h · gen 500</div></div>
+        <div class="callout"><div class="v">8.50×</div><div class="k">lipid ceiling (locked)</div></div>
+        <div class="callout"><div class="v">10.0×</div><div class="k">CA II (locked)</div></div>
+        <div class="callout"><div class="v">91.6%</div><div class="k">viable @ 21 MPa</div></div>
+      </div>
+    </div>
+
+    <!-- PILLAR 4 -->
+    <div class="ppanel" id="pp-p4">
+      <h3>Spark MLlib impedance loop &amp; structured streaming <span class="badge b-sim">DIGITAL TWIN</span></h3>
+      <p class="small">Closed-loop control: bioreactor sensors stream micro-batches (<span style="font-family:'JetBrains Mono',monospace">spark.readStream</span>) into two actuators that keep the physics on-target as the culture fattens.</p>
+      <div class="diagram">
+        <svg viewBox="0 0 680 260" role="img" aria-label="Closed-loop control block diagram">
+          <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#00F0FF" stroke-width="1.5"/></marker></defs>
+          <rect x="14" y="100" width="130" height="60" rx="10" fill="#101926" stroke="#00E676" stroke-width="1.5"/>
+          <text x="79" y="124" fill="#00E676" font-size="12" text-anchor="middle">Bioreactor</text>
+          <text x="79" y="142" fill="#8b98ad" font-size="11" text-anchor="middle">sensors</text>
+          <rect x="184" y="100" width="150" height="60" rx="10" fill="#101926" stroke="#00F0FF" stroke-width="1.5"/>
+          <text x="259" y="124" fill="#00F0FF" font-size="12" text-anchor="middle">spark.readStream</text>
+          <text x="259" y="142" fill="#8b98ad" font-size="11" text-anchor="middle">micro-batches</text>
+          <rect x="374" y="40" width="150" height="60" rx="10" fill="#101926" stroke="#FFAB00" stroke-width="1.5"/>
+          <text x="449" y="62" fill="#FFAB00" font-size="12" text-anchor="middle">MLlib GLR</text>
+          <text x="449" y="80" fill="#8b98ad" font-size="11" text-anchor="middle">Δf₀(t) retune</text>
+          <rect x="374" y="160" width="150" height="60" rx="10" fill="#101926" stroke="#9d7bff" stroke-width="1.5"/>
+          <text x="449" y="182" fill="#9d7bff" font-size="12" text-anchor="middle">TCP/MQTT</text>
+          <text x="449" y="200" fill="#8b98ad" font-size="11" text-anchor="middle">SDR fire 7273.96 MHz</text>
+          <rect x="560" y="100" width="106" height="60" rx="10" fill="#101926" stroke="#00F0FF" stroke-width="1.5"/>
+          <text x="613" y="124" fill="#00F0FF" font-size="12" text-anchor="middle">IDT array</text>
+          <text x="613" y="142" fill="#8b98ad" font-size="11" text-anchor="middle">0.70 MHz</text>
+          <line x1="144" y1="130" x2="180" y2="130" stroke="#00F0FF" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="334" y1="115" x2="400" y2="70" stroke="#00F0FF" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="334" y1="145" x2="400" y2="190" stroke="#00F0FF" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="524" y1="70" x2="580" y2="105" stroke="#FFAB00" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="524" y1="190" x2="580" y2="150" stroke="#9d7bff" stroke-width="1.5" marker-end="url(#arr)"/>
+          <path d="M613,160 C613,230 79,230 79,164" fill="none" stroke="#1d2b40" stroke-width="1.5" stroke-dasharray="6 5"/>
+          <text x="346" y="248" fill="#8b98ad" font-size="11" text-anchor="middle">culture density ρ(t): 1104.4 → 1182.6 kg/m³ feeds back</text>
+        </svg>
+      </div>
+      <div class="math tex">\Delta f_0(t) = f_0 \left(1 - \sqrt{\frac{Z_0}{Z_{\mathrm{fluid}}(t)}}\right), \quad Z_{\mathrm{fluid}}(t) = \rho(t) \cdot c(t)</div>
+      <p class="small"><strong>Actuator 1 — IDT frequency offset:</strong> as deuterated starch/lipid accumulation raises bulk density, the MLlib generalized-linear-regression model retunes the driver to hold 98.0% transmission (S₁₁ &lt; −45 dB).<br><strong>Actuator 2 — SDR capsid clearance:</strong> at dissolved-O₂ + transfection saturation, Spark triggers the software-defined radio to fire the non-thermal <strong>7,273.96 MHz</strong> PBCV-1 clearing signal.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 3: HARDWARE ============ -->
+<section class="block" id="hardware">
+  <div class="wrap">
+    <h2>Phase 1 hardware &amp; CAD fabrication schematics <span class="badge b-sim">DIGITAL TWIN</span></h2>
+    <p>Industrial datasheet view — interactive blueprints with downloadable spec tables. Full CAD under development; dimensions below are the fabrication spec.</p>
+    <div class="hw-grid">
+      <div class="hw-card">
+        <h4>Blueprint A — BiFeO₃-doped LiNbO₃ exponential cavitation nozzle</h4>
+        <div class="diagram">
+          <svg viewBox="0 0 420 220" role="img" aria-label="Exponential horn radial curve">
+            <text x="210" y="18" fill="#8b98ad" font-size="12" text-anchor="middle">R(x) = 10.0 · e^(−0.0807·x), x = 0 → 28.515 mm</text>
+            <line x1="50" y1="190" x2="390" y2="190" stroke="#1d2b40" stroke-width="1"/>
+            <line x1="50" y1="30" x2="50" y2="190" stroke="#1d2b40" stroke-width="1"/>
+            <path id="hornCurve" fill="none" stroke="#00F0FF" stroke-width="2.5"/>
+            <path id="hornCurveLow" fill="none" stroke="#00F0FF" stroke-width="1" opacity=".4"/>
+            <rect id="tipZone" fill="#FFAB00" opacity=".18"/>
+            <text x="330" y="60" fill="#FFAB00" font-size="11">BiFeO₃ tip</text>
+            <text x="330" y="74" fill="#8b98ad" font-size="10">final 0.5 mm</text>
+            <text x="60" y="206" fill="#8b98ad" font-size="10">x=0 · Ø20.0 mm</text>
+            <text x="300" y="206" fill="#8b98ad" font-size="10">x=28.515 · Ø2.0 mm</text>
+          </svg>
+          <div class="cap">Exponential horn profile — 10× mechanical gain, resonant length L = 5λ/2.</div>
+        </div>
+        <ul class="spec-list">
+          <li><b>Substrate:</b> single-crystal Y-Z cut LiNbO₃</li>
+          <li><b>Acoustic velocity c:</b> 3,992 m/s</li>
+          <li><b>λ at 0.70 MHz:</b> 5.703 mm · <b>L = 5λ/2:</b> 28.515 mm</li>
+          <li><b>D₁ → D₂:</b> 20.0 → 2.0 mm (10× gain)</li>
+          <li><b>Tip:</b> oxygen-vacancy BiFeO₃ micro-lattice, final 0.5 mm</li>
+        </ul>
+      </div>
+      <div class="hw-card">
+        <h4>Blueprint B — Phase 1 high-pressure bioreactor vessel</h4>
+        <div class="diagram">
+          <svg viewBox="0 0 420 260" role="img" aria-label="Bioreactor vessel cutaway">
+            <rect x="130" y="20" width="160" height="200" rx="10" fill="none" stroke="#5b6a8f" stroke-width="12"/>
+            <rect x="142" y="32" width="136" height="176" fill="#0d2740" opacity=".9"/>
+            <rect x="142" y="140" width="136" height="68" fill="#083b46" opacity=".95"/>
+            <text x="210" y="180" fill="#00F0FF" font-size="11" text-anchor="middle">D₂O base</text>
+            <rect x="196" y="220" width="28" height="18" fill="#1d2b40" stroke="#00F0FF" stroke-width="1.5"/>
+            <text x="210" y="252" fill="#00F0FF" font-size="10" text-anchor="middle">Ø20 mm port</text>
+            <line x1="110" y1="20" x2="110" y2="220" stroke="#FFAB00" stroke-width="1" stroke-dasharray="4 3"/>
+            <text x="100" y="120" fill="#FFAB00" font-size="10" text-anchor="end">h = 636 mm</text>
+            <line x1="130" y1="244" x2="290" y2="244" stroke="#FFAB00" stroke-width="1" stroke-dasharray="4 3"/>
+            <text x="210" y="238" fill="#8b98ad" font-size="10" text-anchor="middle">Dᵢ = 316 mm</text>
+            <text x="330" y="120" fill="#8b98ad" font-size="10">wall 15.0 mm</text>
+            <text x="330" y="134" fill="#8b98ad" font-size="10">Ti-6Al-4V</text>
+          </svg>
+          <div class="cap">Vertical cutaway — stratified D₂O base, bottom-center nozzle coupling port.</div>
+        </div>
+        <ul class="spec-list">
+          <li><b>Material:</b> Titanium Grade 5 (Ti-6Al-4V), S<sub>y</sub> ≈ 880 MPa</li>
+          <li><b>Capacity:</b> 50.0 L continuous-flow modular testbed</li>
+          <li><b>Geometry:</b> Dᵢ 316 mm × h 636 mm (~1:4 aspect)</li>
+          <li><b>P<sub>max</sub>:</b> 25.0 MPa (≈ 3,626 psi)</li>
+          <li><b>Wall:</b> t = P·rᵢ/(S<sub>y</sub>/SF) ≈ 13.46 → <b>15.0 mm fab</b> (SF 3.0)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="math tex">t = \frac{P \cdot r_i}{S_y / SF} = \frac{25.0 \cdot 158}{293.3} \approx 13.46\ \mathrm{mm} \implies \mathbf{15.0\ mm\ fabrication\ spec}</div>
+  </div>
+</section>
+
+<!-- ============ SECTION 4: CODE ============ -->
+<section class="block" id="code">
+  <div class="wrap">
+    <h2>Open-source code &amp; verification drawer</h2>
+    <p>Run our math yourself — copy either script into a terminal with Python 3 and watch the spec's numbers come out. PySpark UDF wrappers are included in the repo versions for cluster deployment.</p>
+    <details class="code" open>
+      <summary>qag_virology_sim.py — capsid clearance calculator <span class="badge b-qag">THEORETICAL</span></summary>
+      <div class="code-body"><button class="copy-btn" data-copy="code1">Copy</button><pre id="code1">import math
+
+# QAG Canonical Constants (Hybrid Bio-Acoustic Blueprint V4)
+f_H = 1420.405   # MHz (Neutral Hydrogen Cosmic Breath)
+K_ASB = 0.013829 # Affinity Symmetry Bias
+Phi = 1.194797   # Base-12 Symmetry Scaling Factor
+t_pixel = 3.41e-7  # Temporal Latency Window (s)
+
+def run_qag_virology_simulation(MW_kDa, density_proxy, host_zeta=-55.0):
+    Z_v = (MW_kDa * density_proxy) / K_ASB
+    f_kill = (f_H / Phi) * math.log10(Z_v + 1)
+    zeta_est = -15.0 - (10.0 * math.sin(f_kill * 1e6 * t_pixel))
+    delta_zeta = abs(host_zeta - zeta_est)
+    is_safe = delta_zeta >= 20.0
+    return Z_v, f_kill, zeta_est, delta_zeta, is_safe
+
+# Example: PBCV-1 virion (MW=15400 kDa, rho=1.17989)
+Z, fk, ze, dz, ok = run_qag_virology_simulation(15400.0, 1.17989)
+print(f"Z_v={Z:.3e}  f_kill={fk:.2f} MHz  zeta={ze:.2f} mV  "
+      f"delta={dz:.2f} mV  {'SECURE' if ok else 'REVIEW'}")</pre></div>
+    </details>
+    <details class="code">
+      <summary>pillar1_acoustic_sweep.py — parametric sweep UDFs <span class="badge b-sim">DIGITAL TWIN</span></summary>
+      <div class="code-body"><button class="copy-btn" data-copy="code2">Copy</button><pre id="code2">import math
+# from pyspark.sql.functions import udf
+# from pyspark.sql.types import DoubleType
+
+D_CO2_D2O = 1.62e-9        # m^2/s
+OMEGA_0 = 2*math.pi*0.70e6 # rad/s
+A_INT = 18.5               # effective interfacial factor
+
+# @udf(returnType=DoubleType())
+def compute_kla_udf(p_ac_pa, p_0_pa):
+    penetration_base = math.sqrt((4.0 * D_CO2_D2O * OMEGA_0) / math.pi)
+    acoustic_boost = 1.0 + (p_ac_pa / p_0_pa)
+    return float(penetration_base * acoustic_boost * A_INT)
+
+# @udf(returnType=DoubleType())
+def compute_effective_fixation_udf(kla, p_ac_pa, p_0_pa):
+    stress_ratio = p_ac_pa / p_0_pa
+    enzyme_stability = math.exp(-0.45 * max(0.0, stress_ratio - 0.65)**2)
+    nominal_fixation = 1.42 * (kla / 2.0)
+    return float(nominal_fixation * enzyme_stability)
+
+# Optimum: P0*=17.07 MPa, Pac*=20.00 MPa -> kLa=3.8267 s^-1,
+# R=2.404 g CO2/(g*h), enzyme survival 88.5%
+kla = compute_kla_udf(20.0, 17.07)
+print(kla, compute_effective_fixation_udf(kla, 20.0, 17.07))</pre></div>
+    </details>
+    <p class="small">Full runnable versions (with dataset tables and verification harnesses) live in <span style="font-family:'JetBrains Mono',monospace">tools/</span> in the repo.</p>
+  </div>
+</section>
+
+<!-- ============ SECTION 5: IP / REFERENCES / CONTACT ============ -->
+<section class="block" id="ip">
+  <div class="wrap">
+    <h2>Intellectual property, references &amp; contact</h2>
+    <details class="ip" open>
+      <summary>📜 The 10 formal utility patent claims <span class="badge b-emp">PATENT PENDING</span></summary>
+      <div class="ip-body">
+        <p><strong><em>Method and Apparatus for Hybrid Bio-Acoustic Carbon Capture via Isotopic Fractionation and Piezo-Photocatalysis</em></strong> — Inventor: Rodney Alan Ripley Jr.</p>
+        <p><strong>Claims 1–5 (Method):</strong> stratified D₂O cultivation · 15.0–25.0 MPa hydrostatic ramping · 0.70 MHz piezoelectric cavitation · CA II recombinant DNA viral-vector upregulation · non-thermal f<sub>kill</sub> clearance (Δζ ≥ 20.0 mV) · closed-loop real-time frequency compensation Δf₀(t).</p>
+        <p><strong>Claims 6–10 (Apparatus):</strong> 15.0–25.0 MPa bioreactor vessel · single-crystal Y-Z cut LiNbO₃ exponential horn (L = nλ/2) · BiFeO₃ oxygen-vacancy micro-lattice tip doping · 24-node 12°-tilted QVR energy array.</p>
+        <p class="small">Full claim text: <a href="https://github.com/Sir-Ripley/qag-carbon-capture/blob/main/docs/PATENT_CLAIMS.md">docs/PATENT_CLAIMS.md</a></p>
+      </div>
+    </details>
+    <h3>Peer-reviewed empirical citations</h3>
+    <ul class="spec-list" style="list-style:disc; padding-left:1.2rem">
+      <li><em>To Divide or Not to Divide? How Deuterium Affects Growth and Division in Microalgae</em> — <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8226696/">PubMed Central PMC8226696</a> <span class="badge b-emp">EMPIRICAL</span></li>
+      <li><em>Current Status and Perspective on the Use of Viral-Based Vectors in Eukaryotic Microalgae</em> — <a href="https://doi.org/10.3390/md20070434">MDPI Marine Drugs 2022, 20(7), 434</a> <span class="badge b-emp">EMPIRICAL</span></li>
+      <li><em>Insights into Piezo-Photocatalytic Activity and Piezoelectric Catalysis of BiFeO₃</em> — RSC / MDPI (2024–2025) <span class="badge b-emp">EMPIRICAL</span></li>
+    </ul>
+    <div class="contact-card">
+      <h3>Contact &amp; commercialization</h3>
+      <p><strong>Rodney Alan Ripley Jr.</strong> (Wizard of Science)<br><span class="small">Principal Investigator · R&amp;R Droids</span></p>
+      <p><a href="mailto:droiden.RR@gmail.com">droiden.RR@gmail.com</a> · <a href="tel:+13304208444">330-420-8444</a></p>
+      <p class="small">Research inquiries, institutional collaboration, and funding — I read everything myself.</p>
+    </div>
+    <p class="caveat"><strong>Honesty footer:</strong> all simulation figures and theoretical derivations are the R&amp;R Droids team's own work — not yet independently validated. Empirical baselines are cited to peer-reviewed literature above. The comparative audit that corrected this project's claims is published at <a href="https://github.com/Sir-Ripley/qag-carbon-capture/blob/main/docs/EMPIRICAL_AUDIT.md">docs/EMPIRICAL_AUDIT.md</a>.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Hybrid Bio-Acoustic Carbon Capture &amp; O₂ Synthesis — public research showcase · <strong>R&amp;R Droids</strong></p>
+    <p class="small">Spec: self-emailed build briefs 2026-10-19 · Source docs: Drive folder "Artificial Photosynthesis and Chemosynthesis" · Code &amp; docs: <a href="https://github.com/Sir-Ripley/qag-carbon-capture">Sir-Ripley/qag-carbon-capture</a> · Apache 2.0</p>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script>
+/* ---------- KaTeX ---------- */
+document.querySelectorAll('.tex').forEach(el=>{
+  try{ katex.render(el.textContent, el, {throwOnError:false}); }
+  catch(e){ /* leave raw TeX readable */ }
+});
+/* ---------- pillar tabs ---------- */
+document.querySelectorAll('.ptabs button').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('.ptabs button').forEach(x=>x.classList.toggle('active', x===b));
+    document.querySelectorAll('.ppanel').forEach(p=>p.classList.toggle('active', p.id==='pp-'+b.dataset.ptab));
+  });
+});
+/* ---------- canvas helper ---------- */
+function ctx2d(id, h){
+  const cv = document.getElementById(id);
+  const dpr = window.devicePixelRatio||1;
+  const W = cv.clientWidth || cv.parentElement.clientWidth - 2;
+  cv.style.height = h+'px';
+  cv.width = W*dpr; cv.height = h*dpr;
+  const c = cv.getContext('2d'); c.scale(dpr,dpr);
+  return [c, W, h];
+}
+const D_CO2=1.62e-9, OM=2*Math.PI*0.70e6, A_INT=18.5;
+const kla=(pac,p0)=>Math.sqrt(4*D_CO2*OM/Math.PI)*(1+pac/p0)*A_INT;
+const etaE=(pac,p0)=>Math.exp(-0.45*Math.pow(Math.max(0,pac/p0-0.65),2));
+const Rce=(pac,p0)=>1.42*(kla(pac,p0)/2)*etaE(pac,p0);
+/* ---------- Pillar 1 heatmap ---------- */
+(function(){
+  const [c,W,H]=ctx2d('heatmap',360);
+  const pL=54,pR=14,pT=14,pB=40, iw=W-pL-pR, ih=H-pT-pB;
+  const NX=70, NY=44;
+  let mn=1e9, mx=-1e9; const grid=[];
+  for(let j=0;j<NY;j++){ grid[j]=[];
+    for(let i=0;i<NX;i++){
+      const p0=15+10*i/(NX-1), pac=1+19*j/(NY-1);
+      const v=Rce(pac,p0); grid[j][i]=v;
+      if(v<mn)mn=v; if(v>mx)mx=v;
+    }
+  }
+  // color: deep navy -> cyan -> emerald -> amber
+  const stops=[[7,11,18],[0,120,160],[0,200,255],[0,230,118],[255,171,0]];
+  const col=t=>{
+    t=Math.max(0,Math.min(1,(t-mn)/(mx-mn)));
+    const x=t*(stops.length-1), i=Math.min(stops.length-2,Math.floor(x)), f=x-i;
+    const r=Math.round(stops[i][0]+f*(stops[i+1][0]-stops[i][0]));
+    const g=Math.round(stops[i][1]+f*(stops[i+1][1]-stops[i][1]));
+    const b=Math.round(stops[i][2]+f*(stops[i+1][2]-stops[i][2]));
+    return `rgb(${r},${g},${b})`;
+  };
+  const cw=iw/NX, ch=ih/NY;
+  for(let j=0;j<NY;j++)for(let i=0;i<NX;i++){
+    c.fillStyle=col(grid[j][i]);
+    c.fillRect(pL+i*cw, pT+(NY-1-j)*ch, cw+1, ch+1);
+  }
+  c.strokeStyle='#5b6a8f'; c.fillStyle='#8b98ad'; c.font='11px Inter,sans-serif'; c.lineWidth=1;
+  for(let k=0;k<=4;k++){
+    const p0=15+10*k/4, x=pL+iw*k/4;
+    c.beginPath(); c.moveTo(x,pT); c.lineTo(x,pT+ih); c.strokeStyle='rgba(91,106,143,.35)'; c.stroke();
+    c.fillText(p0.toFixed(0)+' MPa', x-18, H-24);
+  }
+  for(let k=0;k<=4;k++){
+    const pac=1+19*k/4, y=pT+ih-ih*k/4;
+    c.beginPath(); c.moveTo(pL,y); c.lineTo(pL+iw,y); c.strokeStyle='rgba(91,106,143,.35)'; c.stroke();
+    c.fillText(pac.toFixed(0), 14, y+4);
+  }
+  c.fillStyle='#8b98ad';
+  c.fillText('baseline pressure P₀ →', pL+iw/2-52, H-8);
+  c.save(); c.translate(14,pT+ih/2+40); c.rotate(-Math.PI/2); c.fillText('acoustic amplitude Pac (MPa)',0,0); c.restore();
+  // optimum marker
+  const ox=pL+iw*(17.07-15)/10, oy=pT+ih-ih*(20-1)/19;
+  c.strokeStyle='#fff'; c.lineWidth=2;
+  c.beginPath(); c.arc(ox,oy,9,0,7); c.stroke();
+  c.beginPath(); c.moveTo(ox-13,oy); c.lineTo(ox+13,oy); c.moveTo(ox,oy-13); c.lineTo(ox,oy+13); c.stroke();
+  c.fillStyle='#fff'; c.font='bold 11px Inter,sans-serif';
+  c.fillText('sweet spot (17.07, 20.00)', Math.min(ox+16,W-170), oy-12);
+  c.fillStyle='#8b98ad'; c.font='11px Inter,sans-serif';
+  c.fillText(`R range ${mn.toFixed(2)} → ${mx.toFixed(2)} g/g/h`, pL+6, pT+16);
+})();
+/* ---------- Pillar 2 data, table + bars ---------- */
+const VECTORS=[
+ ["PBCV-1 Virion Assembly","1M4X",15400.0,1.314e6,7273.96,-5.09,49.91],
+ ["PBCV-1 Capsid Vp54","1J5Q",324.0,2.694e4,5267.05,-7.01,47.99],
+ ["Chlorella Virus AR158","3J42",14800.0,1.241e6,7244.62,-24.01,30.99],
+ ["Chlorella Virus NY-2A","3J41",15100.0,1.278e6,7259.41,-13.84,41.16],
+ ["ATCV-1 Broad-Host Capsid","3J24",13900.0,1.146e6,7208.57,-6.62,48.38],
+ ["Recombinant CA II Cassette","2VVA",58.4,4.434e3,4339.73,-24.71,30.29],
+ ["Thermostable CA II (DvCA10)","1V9E",64.2,4.921e3,4395.74,-13.12,41.88],
+ ["RuBisCO Activase Complex","3ZXG",440.0,3.500e4,5404.14,-19.98,35.02],
+ ["BiFeO3 Doped Nanogel","SYN_NP",2800.0,2.733e5,6467.43,-22.61,32.39],
+ ["Extremophile Host Baseline","HOST",85000.0,6.269e6,8085.34,-5.38,49.62]
+];
+(function(){
+  const tb=document.querySelector('#vectorTable tbody');
+  const fmtZ=v=>v>=1e6?(v/1e6).toFixed(3)+'×10⁶':v>=1e3?(v/1e3).toFixed(2)+'×10³':v.toFixed(1);
+  function render(rows){
+    tb.innerHTML=rows.map(r=>
+      `<tr><td>${r[0]}</td><td>${r[1]}</td><td class="num">${r[2].toLocaleString()}</td>`+
+      `<td class="num">${fmtZ(r[3])}</td><td class="num">${r[4].toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}</td>`+
+      `<td class="num">${r[5].toFixed(2)}</td><td class="num">${r[6].toFixed(2)}</td>`+
+      `<td class="secure">SECURE</td></tr>`).join('');
+  }
+  render(VECTORS);
+  let dir=1, lastK=-1;
+  document.querySelectorAll('#vectorTable th[data-k]').forEach(th=>{
+    th.addEventListener('click',()=>{
+      const k=+th.dataset.k; dir=(k===lastK)?-dir:1; lastK=k;
+      const rows=VECTORS.slice().sort((a,b)=>(typeof a[k]==='number'?a[k]-b[k]:String(a[k]).localeCompare(String(b[k])))*dir);
+      render(rows);
+    });
+  });
+  // bars
+  const [c,W,H]=ctx2d('zetaBars',340);
+  const pL=210,pR=54,pT=10,pB=30, iw=W-pL-pR, ih=H-pT-pB;
+  const mx=55, rh=ih/VECTORS.length;
+  c.font='11px Inter,sans-serif';
+  VECTORS.forEach((r,i)=>{
+    const y=pT+i*rh+4, bw=iw*(r[6]/mx);
+    c.fillStyle='#8b98ad'; c.fillText(r[0], 8, y+rh/2-2);
+    c.fillStyle='rgba(0,230,118,.85)';
+    c.fillRect(pL, y, bw, rh-10);
+    c.fillStyle='#e9f4f8'; c.fillText(r[6].toFixed(1)+' mV', pL+bw+6, y+rh/2-2);
+  });
+  const tx=pL+iw*(20/mx);
+  c.strokeStyle='#FFAB00'; c.lineWidth=2; c.setLineDash([6,4]);
+  c.beginPath(); c.moveTo(tx,pT); c.lineTo(tx,pT+ih); c.stroke(); c.setLineDash([]);
+  c.fillStyle='#FFAB00'; c.fillText('20.0 mV lock', tx-76, H-10);
+  c.fillStyle='#8b98ad'; c.fillText('host safety margin Δζ (mV) →', pL+iw/2-70, H-10);
+})();
+/* ---------- Pillar 3 evolution chart ---------- */
+(function(){
+  const [c,W,H]=ctx2d('evoChart',360);
+  const pL=46,pR=14,pT=16,pB=44, iw=W-pL-pR, ih=H-pT-pB;
+  // [gen, hours, P_MPa, CAII, baroTol, lipid, fixation, viability]
+  const D=[
+    [0,0.0,15.00,1.00,0.10,2.00,0.200,81.2],[50,7.2,16.00,3.37,0.28,5.55,0.812,99.5],
+    [100,14.4,17.00,5.73,0.46,8.39,1.543,99.2],[150,21.6,18.00,8.19,0.62,8.50,2.381,98.5],
+    [200,28.8,19.00,10.00,0.75,8.50,3.145,97.3],[300,43.2,21.00,10.00,0.89,8.50,3.652,91.6],
+    [400,57.6,23.00,10.00,0.96,8.50,3.744,76.7],[500,72.0,25.00,10.00,0.99,8.50,3.820,50.0]];
+  const series=[
+    {k:6,c:'#00F0FF',lbl:'fixation g/g/h',mx:3.82},
+    {k:5,c:'#00E676',lbl:'lipid ×',mx:8.5},
+    {k:3,c:'#9d7bff',lbl:'CA II ×',mx:10},
+    {k:7,c:'#FFAB00',lbl:'viability %',mx:100}];
+  const X=g=>pL+iw*g/500, Y=(v,mx)=>pT+ih-(v/mx)*ih;
+  c.strokeStyle='rgba(91,106,143,.35)'; c.fillStyle='#8b98ad'; c.font='11px Inter,sans-serif'; c.lineWidth=1;
+  for(let k=0;k<=5;k++){ const y=pT+ih*k/5;
+    c.beginPath(); c.moveTo(pL,y); c.lineTo(pL+iw,y); c.stroke(); }
+  D.forEach((d,i)=>{ if(i%2===0){ c.fillText('G'+d[0], X(d[0])-8, H-26); } });
+  c.fillText('generation →', pL+iw/2-34, H-8);
+  window._evoTip=D;
+  series.forEach(s=>{
+    c.strokeStyle=s.c; c.lineWidth=2.2; c.beginPath();
+    D.forEach((d,i)=>{ const x=X(d[0]),y=Y(d[s.k],s.mx); i?c.lineTo(x,y):c.moveTo(x,y); });
+    c.stroke();
+    const last=D[D.length-1];
+    c.fillStyle=s.c; c.beginPath(); c.arc(X(last[0]),Y(last[s.k],s.mx),3.5,0,7); c.fill();
+  });
+  // legend
+  let lx=pL+8;
+  series.forEach(s=>{
+    c.fillStyle=s.c; c.fillRect(lx,pT+2,18,4);
+    c.fillStyle='#c6d2e2'; c.fillText(s.lbl,lx+22,pT+8); lx+=22+c.measureText(s.lbl).width+22;
+  });
+  // hover tooltip
+  const cv=document.getElementById('evoChart');
+  const tip=document.createElement('div');
+  tip.style.cssText='position:absolute;display:none;background:#0a1420;border:1px solid #1d2b40;border-radius:8px;padding:.5rem .7rem;font-size:.75rem;font-family:JetBrains Mono,monospace;pointer-events:none;z-index:5';
+  cv.parentElement.style.position='relative'; cv.parentElement.appendChild(tip);
+  cv.addEventListener('mousemove',e=>{
+    const r=cv.getBoundingClientRect();
+    const gx=Math.max(0,Math.min(500,(e.clientX-r.left-pL)/iw*500));
+    let bi=0,bd=1e9; D.forEach((d,i)=>{ const dd=Math.abs(d[0]-gx); if(dd<bd){bd=dd;bi=i;} });
+    const d=D[bi];
+    tip.innerHTML=`Gen ${d[0]} · ${d[1]} h · ${d[2].toFixed(2)} MPa<br>fix ${d[6].toFixed(3)} g/g/h · lipid ${d[5].toFixed(2)}× · CA II ${d[3].toFixed(2)}× · viable ${d[7].toFixed(1)}%`;
+    tip.style.display='block';
+    tip.style.left=Math.min(r.width-190, e.clientX-r.left+14)+'px';
+    tip.style.top=(e.clientY-r.top-10)+'px';
+  });
+  cv.addEventListener('mouseleave',()=>tip.style.display='none');
+})();
+/* ---------- horn curve ---------- */
+(function(){
+  const mk=(id,top)=>{
+    const p=document.getElementById(id); if(!p) return;
+    const x0=60,x1=380,yBase=170,amp=top?60:26;
+    let d='';
+    for(let i=0;i<=60;i++){
+      const x=i/60*28.515, R=10*Math.exp(-0.0807*x); // mm radius
+      const px=x0+(x/28.515)*(x1-x0), py=yBase-(R/10)*amp;
+      d+=(i?'L':'M')+px.toFixed(1)+','+py.toFixed(1);
+    }
+    p.setAttribute('d',d);
+  };
+  mk('hornCurve',true); mk('hornCurveLow',false);
+  const tz=document.getElementById('tipZone');
+  if(tz){ tz.setAttribute('x',372); tz.setAttribute('y',120); tz.setAttribute('width',16); tz.setAttribute('height',60); }
+})();
+/* ---------- copy buttons ---------- */
+document.querySelectorAll('.copy-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const t=document.getElementById(b.dataset.copy).textContent;
+    navigator.clipboard.writeText(t).then(()=>{
+      b.textContent='Copied ✓'; setTimeout(()=>b.textContent='Copy',1500);
+    });
+  });
+});
+window.addEventListener('resize',()=>location.reload());
+</script>
+</body>
+</html>
