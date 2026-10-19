@@ -266,7 +266,8 @@ footer{padding:2rem 0 2.6rem; text-align:center; color:var(--dim); font-size:.82
     <!-- PILLAR 2 -->
     <div class="ppanel" id="pp-p2">
       <h3>High-throughput QAG virology vector screening <span class="badge b-qag">THEORETICAL QAG MODEL</span></h3>
-      <p class="small">Ten candidate viral vectors and subunits, each with a computed non-thermal disruptive frequency (f<sub>kill</sub>) and host safety margin lock. Click any column header to sort. The amber line is the 20.0 mV minimum safety threshold — every vector clears it.</p>
+      <p class="small">Ten candidate viral vectors and subunits, each with a computed non-thermal disruptive frequency (f<sub>kill</sub>) and host safety margin lock. Click any column header to sort. The amber line is the 20.0 mV minimum safety threshold — every vector clears it. <span id="p2-datasrc"></span></p>
+      <p class="small">🔗 Full pathogen datasets live in the <a href="https://qag-virology-demo-qag-works.vercel.app" target="_blank" rel="noopener">QAG Virology Hub</a> — this pillar's screening vectors are served live from the <a href="https://qag-data.vercel.app/index.json" target="_blank" rel="noopener">qag-data API</a>.</p>
       <canvas class="chart" id="zetaBars" height="340" aria-label="Safety margin bar chart"></canvas>
       <div class="table-wrap"><table class="data" id="vectorTable">
         <thead><tr><th data-k="0">Vector ⇅</th><th data-k="1">PDB ⇅</th><th data-k="2" class="num">MW (kDa) ⇅</th><th data-k="3" class="num">Z<sub>v</sub> ⇅</th><th data-k="4" class="num">f<sub>kill</sub> (MHz) ⇅</th><th data-k="5" class="num">ζ<sub>v</sub> (mV) ⇅</th><th data-k="6" class="num">Δζ (mV) ⇅</th><th>Status</th></tr></thead>
@@ -280,7 +281,7 @@ footer{padding:2rem 0 2.6rem; text-align:center; color:var(--dim); font-size:.82
     <!-- PILLAR 3 -->
     <div class="ppanel" id="pp-p3">
       <h3>Distributed evolutionary Monte Carlo — 10⁷ virtual cells <span class="badge b-sim">DIGITAL TWIN</span></h3>
-      <p class="small">500 generations in 72 hours (partition-optimized island-biogeography run, <span style="font-family:'JetBrains Mono',monospace">rdd.mapPartitions()</span>, 100 partitions). Lines are normalized to each metric's maximum — hover the chart for exact values.</p>
+      <p class="small">500 generations in 72 hours (partition-optimized island-biogeography run, <span style="font-family:'JetBrains Mono',monospace">rdd.mapPartitions()</span>, 100 partitions). Lines are normalized to each metric's maximum — hover the chart for exact values. <span id="p3-datasrc"></span></p>
       <div class="small" style="margin:.4rem 0">
         <label style="opacity:.55; cursor:not-allowed" title="The initial unoptimized run (22.50 MPa ramp, 10 discrete steps) underperformed and its curve data was not published — we show only the verified run.">
           <input type="checkbox" disabled> compare initial unoptimized run <span style="font-size:.72rem">(data not published)</span>
@@ -489,7 +490,7 @@ print(kla, compute_effective_fixation_udf(kla, 20.0, 17.07))</pre></div>
 <footer>
   <div class="wrap">
     <p>Hybrid Bio-Acoustic Carbon Capture &amp; O₂ Synthesis — public research showcase · <strong>R&amp;R Droids</strong></p>
-    <p class="small">Spec: self-emailed build briefs 2026-10-19 · Source docs: Drive folder "Artificial Photosynthesis and Chemosynthesis" · Code &amp; docs: <a href="https://github.com/Sir-Ripley/qag-carbon-capture">Sir-Ripley/qag-carbon-capture</a> · Apache 2.0</p>
+    <p class="small">Spec: self-emailed build briefs 2026-10-19 · Source docs: Drive folder "Artificial Photosynthesis and Chemosynthesis" · Code &amp; docs: <a href="https://github.com/Sir-Ripley/qag-carbon-capture">Sir-Ripley/qag-carbon-capture</a> · Live datasets: <a href="https://qag-data.vercel.app/index.json">qag-data API</a> · Binary assets: Vercel Blob store <span style="font-family:'JetBrains Mono',monospace">qag-shared-data</span> · Apache 2.0</p>
   </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -581,7 +582,7 @@ function drawHeatmap(){
   c.fillText(`R range ${mn.toFixed(2)} → ${mx.toFixed(2)} g/g/h`, pL+6, pT+16);
 }
 drawPanel('p1');
-/* ---------- Pillar 2 data, table + bars ---------- */
+/* ---------- Pillar 2 data, table + bars (live from qag-data API, embedded fallback) ---------- */
 const VECTORS=[
  ["PBCV-1 Virion Assembly","1M4X",15400.0,1.314e6,7273.96,-5.09,49.91],
  ["PBCV-1 Capsid Vp54","1J5Q",324.0,2.694e4,5267.05,-7.01,47.99],
@@ -594,7 +595,16 @@ const VECTORS=[
  ["BiFeO3 Doped Nanogel","SYN_NP",2800.0,2.733e5,6467.43,-22.61,32.39],
  ["Extremophile Host Baseline","HOST",85000.0,6.269e6,8085.34,-5.38,49.62]
 ];
-function drawZeta(){
+const DATA_API='https://qag-data.vercel.app';
+async function drawZeta(){
+  let V=VECTORS, live=false;
+  try{
+    const r=await fetch(DATA_API+'/carbon-capture/vectors.json');
+    if(r.ok){ const j=await r.json();
+      if(j.vectors&&j.vectors.length){ V=j.vectors.map(v=>[v.name,v.pdb,v.mw_kda,v.z_v,v.f_kill_mhz,v.zeta_v_mv,v.delta_zeta_mv]); live=true; } }
+  }catch(e){/* embedded fallback */}
+  const src=document.getElementById('p2-datasrc');
+  if(src) src.innerHTML=live?'<span class="badge b-sim">LIVE DATA · qag-data API</span>':'<span class="badge b-emp">EMBEDDED DATA · API unreachable</span>';
   const tb=document.querySelector('#vectorTable tbody');
   const fmtZ=v=>v>=1e6?(v/1e6).toFixed(3)+'×10⁶':v>=1e3?(v/1e3).toFixed(2)+'×10³':v.toFixed(1);
   function render(rows){
@@ -604,21 +614,21 @@ function drawZeta(){
       `<td class="num">${r[5].toFixed(2)}</td><td class="num">${r[6].toFixed(2)}</td>`+
       `<td class="secure">SECURE</td></tr>`).join('');
   }
-  render(VECTORS);
+  render(V);
   let dir=1, lastK=-1;
   document.querySelectorAll('#vectorTable th[data-k]').forEach(th=>{
     th.addEventListener('click',()=>{
       const k=+th.dataset.k; dir=(k===lastK)?-dir:1; lastK=k;
-      const rows=VECTORS.slice().sort((a,b)=>(typeof a[k]==='number'?a[k]-b[k]:String(a[k]).localeCompare(String(b[k])))*dir);
+      const rows=V.slice().sort((a,b)=>(typeof a[k]==='number'?a[k]-b[k]:String(a[k]).localeCompare(String(b[k])))*dir);
       render(rows);
     });
   });
   // bars
   const [c,W,H]=ctx2d('zetaBars',340);
   const pL=218,pR=60,pT=10,pB=30, iw=W-pL-pR, ih=H-pT-pB;
-  const mx=55, rh=ih/VECTORS.length;
+  const mx=55, rh=ih/V.length;
   c.font='11px Inter,sans-serif';
-  VECTORS.forEach((r,i)=>{
+  V.forEach((r,i)=>{
     const y=pT+i*rh+4, bw=iw*(r[6]/mx);
     c.fillStyle='#8b98ad'; c.fillText(r[0], 8, y+rh/2+4);
     c.fillStyle='rgba(0,230,118,.85)';
@@ -631,16 +641,23 @@ function drawZeta(){
   c.fillStyle='#FFAB00'; c.fillText('20.0 mV lock', tx-76, H-10);
   c.fillStyle='#8b98ad'; c.fillText('host safety margin Δζ (mV) →', pL+iw/2-70, H-10);
 }
-/* ---------- Pillar 3 evolution chart ---------- */
-function drawEvo(){
-  const [c,W,H]=ctx2d('evoChart',360);
-  const pL=46,pR=14,pT=16,pB=44, iw=W-pL-pR, ih=H-pT-pB;
+/* ---------- Pillar 3 evolution chart (live from qag-data API, embedded fallback) ---------- */
+async function drawEvo(){
   // [gen, hours, P_MPa, CAII, baroTol, lipid, fixation, viability]
-  const D=[
+  let D=[
     [0,0.0,15.00,1.00,0.10,2.00,0.200,81.2],[50,7.2,16.00,3.37,0.28,5.55,0.812,99.5],
     [100,14.4,17.00,5.73,0.46,8.39,1.543,99.2],[150,21.6,18.00,8.19,0.62,8.50,2.381,98.5],
     [200,28.8,19.00,10.00,0.75,8.50,3.145,97.3],[300,43.2,21.00,10.00,0.89,8.50,3.652,91.6],
     [400,57.6,23.00,10.00,0.96,8.50,3.744,76.7],[500,72.0,25.00,10.00,0.99,8.50,3.820,50.0]];
+  let live=false;
+  try{
+    const r=await fetch(DATA_API+'/carbon-capture/evolution-run.json');
+    if(r.ok){ const j=await r.json(); if(j.rows&&j.rows.length){ D=j.rows; live=true; } }
+  }catch(e){/* embedded fallback */}
+  const src=document.getElementById('p3-datasrc');
+  if(src) src.innerHTML=live?'<span class="badge b-sim">LIVE DATA · qag-data API</span>':'<span class="badge b-emp">EMBEDDED DATA · API unreachable</span>';
+  const [c,W,H]=ctx2d('evoChart',360);
+  const pL=46,pR=14,pT=16,pB=44, iw=W-pL-pR, ih=H-pT-pB;
   const series=[
     {k:6,c:'#00F0FF',lbl:'fixation g/g/h',mx:3.82},
     {k:5,c:'#00E676',lbl:'lipid ×',mx:8.5},
