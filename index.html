@@ -280,7 +280,13 @@ footer{padding:2rem 0 2.6rem; text-align:center; color:var(--dim); font-size:.82
     <!-- PILLAR 3 -->
     <div class="ppanel" id="pp-p3">
       <h3>Distributed evolutionary Monte Carlo — 10⁷ virtual cells <span class="badge b-sim">DIGITAL TWIN</span></h3>
-      <p class="small">500 generations in 72 hours (partition-optimized island-biogeography run, <span style="font-family:'JetBrains Mono',monospace">rdd.mapPartitions()</span>, 100 partitions). Lines are normalized to each metric's maximum — hover the chart for exact values. The honest engineering note: the first unoptimized run (22.50 MPa ramp, 10 discrete steps) underperformed; this is the run that worked.</p>
+      <p class="small">500 generations in 72 hours (partition-optimized island-biogeography run, <span style="font-family:'JetBrains Mono',monospace">rdd.mapPartitions()</span>, 100 partitions). Lines are normalized to each metric's maximum — hover the chart for exact values.</p>
+      <div class="small" style="margin:.4rem 0">
+        <label style="opacity:.55; cursor:not-allowed" title="The initial unoptimized run (22.50 MPa ramp, 10 discrete steps) underperformed and its curve data was not published — we show only the verified run.">
+          <input type="checkbox" disabled> compare initial unoptimized run <span style="font-size:.72rem">(data not published)</span>
+        </label>
+        <span class="small"> — the honest engineering note: the first run underperformed; this is the run that worked.</span>
+      </div>
       <canvas class="chart" id="evoChart" height="360" aria-label="Evolution run chart"></canvas>
       <div class="callouts">
         <div class="callout"><div class="v">3.820</div><div class="k">g/g/h · gen 500</div></div>
@@ -317,7 +323,7 @@ footer{padding:2rem 0 2.6rem; text-align:center; color:var(--dim); font-size:.82
           <line x1="334" y1="145" x2="400" y2="190" stroke="#00F0FF" stroke-width="1.5" marker-end="url(#arr)"/>
           <line x1="524" y1="70" x2="580" y2="105" stroke="#FFAB00" stroke-width="1.5" marker-end="url(#arr)"/>
           <line x1="524" y1="190" x2="580" y2="150" stroke="#9d7bff" stroke-width="1.5" marker-end="url(#arr)"/>
-          <path d="M613,160 C613,230 79,230 79,164" fill="none" stroke="#1d2b40" stroke-width="1.5" stroke-dasharray="6 5"/>
+          <path class="wave" d="M613,160 C613,230 79,230 79,164" fill="none" stroke="#00F0FF" stroke-width="1.5" stroke-dasharray="6 5" opacity=".6"/>
           <text x="346" y="248" fill="#8b98ad" font-size="11" text-anchor="middle">culture density ρ(t): 1104.4 → 1182.6 kg/m³ feeds back</text>
         </svg>
       </div>
@@ -467,7 +473,7 @@ print(kla, compute_effective_fixation_udf(kla, 20.0, 17.07))</pre></div>
     <ul class="spec-list" style="list-style:disc; padding-left:1.2rem">
       <li><em>To Divide or Not to Divide? How Deuterium Affects Growth and Division in Microalgae</em> — <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8226696/">PubMed Central PMC8226696</a> <span class="badge b-emp">EMPIRICAL</span></li>
       <li><em>Current Status and Perspective on the Use of Viral-Based Vectors in Eukaryotic Microalgae</em> — <a href="https://doi.org/10.3390/md20070434">MDPI Marine Drugs 2022, 20(7), 434</a> <span class="badge b-emp">EMPIRICAL</span></li>
-      <li><em>Insights into Piezo-Photocatalytic Activity and Piezoelectric Catalysis of BiFeO₃</em> — RSC / MDPI (2024–2025) <span class="badge b-emp">EMPIRICAL</span></li>
+      <li><em>Insights into Piezo-Photocatalytic Activity and Piezoelectric Catalysis of BiFeO₃</em> — RSC / MDPI (2024–2025) — <a href="https://scholar.google.com/scholar?q=BiFeO3+piezo-photocatalytic+ultrasonic+water+splitting">search the literature</a> <span class="badge b-emp">EMPIRICAL</span></li>
     </ul>
     <div class="contact-card">
       <h3>Contact &amp; commercialization</h3>
@@ -493,18 +499,26 @@ document.querySelectorAll('.tex').forEach(el=>{
   try{ katex.render(el.textContent, el, {throwOnError:false}); }
   catch(e){ /* leave raw TeX readable */ }
 });
-/* ---------- pillar tabs ---------- */
+/* ---------- pillar tabs (charts draw lazily — hidden panels measure 0 width) ---------- */
+const drawn={};
+function drawPanel(k){
+  if(drawn[k]) return; drawn[k]=true;
+  if(k==='p1') drawHeatmap();
+  else if(k==='p2') drawZeta();
+  else if(k==='p3') drawEvo();
+}
 document.querySelectorAll('.ptabs button').forEach(b=>{
   b.addEventListener('click', ()=>{
     document.querySelectorAll('.ptabs button').forEach(x=>x.classList.toggle('active', x===b));
     document.querySelectorAll('.ppanel').forEach(p=>p.classList.toggle('active', p.id==='pp-'+b.dataset.ptab));
+    requestAnimationFrame(()=>drawPanel(b.dataset.ptab));
   });
 });
 /* ---------- canvas helper ---------- */
 function ctx2d(id, h){
   const cv = document.getElementById(id);
   const dpr = window.devicePixelRatio||1;
-  const W = cv.clientWidth || cv.parentElement.clientWidth - 2;
+  const W = Math.max(60, cv.clientWidth || cv.parentElement.clientWidth - 2);
   cv.style.height = h+'px';
   cv.width = W*dpr; cv.height = h*dpr;
   const c = cv.getContext('2d'); c.scale(dpr,dpr);
@@ -515,7 +529,7 @@ const kla=(pac,p0)=>Math.sqrt(4*D_CO2*OM/Math.PI)*(1+pac/p0)*A_INT;
 const etaE=(pac,p0)=>Math.exp(-0.45*Math.pow(Math.max(0,pac/p0-0.65),2));
 const Rce=(pac,p0)=>1.42*(kla(pac,p0)/2)*etaE(pac,p0);
 /* ---------- Pillar 1 heatmap ---------- */
-(function(){
+function drawHeatmap(){
   const [c,W,H]=ctx2d('heatmap',360);
   const pL=54,pR=14,pT=14,pB=40, iw=W-pL-pR, ih=H-pT-pB;
   const NX=70, NY=44;
@@ -565,7 +579,8 @@ const Rce=(pac,p0)=>1.42*(kla(pac,p0)/2)*etaE(pac,p0);
   c.fillText('sweet spot (17.07, 20.00)', Math.min(ox+16,W-170), oy-12);
   c.fillStyle='#8b98ad'; c.font='11px Inter,sans-serif';
   c.fillText(`R range ${mn.toFixed(2)} → ${mx.toFixed(2)} g/g/h`, pL+6, pT+16);
-})();
+}
+drawPanel('p1');
 /* ---------- Pillar 2 data, table + bars ---------- */
 const VECTORS=[
  ["PBCV-1 Virion Assembly","1M4X",15400.0,1.314e6,7273.96,-5.09,49.91],
@@ -579,7 +594,7 @@ const VECTORS=[
  ["BiFeO3 Doped Nanogel","SYN_NP",2800.0,2.733e5,6467.43,-22.61,32.39],
  ["Extremophile Host Baseline","HOST",85000.0,6.269e6,8085.34,-5.38,49.62]
 ];
-(function(){
+function drawZeta(){
   const tb=document.querySelector('#vectorTable tbody');
   const fmtZ=v=>v>=1e6?(v/1e6).toFixed(3)+'×10⁶':v>=1e3?(v/1e3).toFixed(2)+'×10³':v.toFixed(1);
   function render(rows){
@@ -600,24 +615,24 @@ const VECTORS=[
   });
   // bars
   const [c,W,H]=ctx2d('zetaBars',340);
-  const pL=210,pR=54,pT=10,pB=30, iw=W-pL-pR, ih=H-pT-pB;
+  const pL=218,pR=60,pT=10,pB=30, iw=W-pL-pR, ih=H-pT-pB;
   const mx=55, rh=ih/VECTORS.length;
   c.font='11px Inter,sans-serif';
   VECTORS.forEach((r,i)=>{
     const y=pT+i*rh+4, bw=iw*(r[6]/mx);
-    c.fillStyle='#8b98ad'; c.fillText(r[0], 8, y+rh/2-2);
+    c.fillStyle='#8b98ad'; c.fillText(r[0], 8, y+rh/2+4);
     c.fillStyle='rgba(0,230,118,.85)';
     c.fillRect(pL, y, bw, rh-10);
-    c.fillStyle='#e9f4f8'; c.fillText(r[6].toFixed(1)+' mV', pL+bw+6, y+rh/2-2);
+    c.fillStyle='#e9f4f8'; c.fillText(r[6].toFixed(1)+' mV', pL+bw+6, y+rh/2+4);
   });
   const tx=pL+iw*(20/mx);
   c.strokeStyle='#FFAB00'; c.lineWidth=2; c.setLineDash([6,4]);
   c.beginPath(); c.moveTo(tx,pT); c.lineTo(tx,pT+ih); c.stroke(); c.setLineDash([]);
   c.fillStyle='#FFAB00'; c.fillText('20.0 mV lock', tx-76, H-10);
   c.fillStyle='#8b98ad'; c.fillText('host safety margin Δζ (mV) →', pL+iw/2-70, H-10);
-})();
+}
 /* ---------- Pillar 3 evolution chart ---------- */
-(function(){
+function drawEvo(){
   const [c,W,H]=ctx2d('evoChart',360);
   const pL=46,pR=14,pT=16,pB=44, iw=W-pL-pR, ih=H-pT-pB;
   // [gen, hours, P_MPa, CAII, baroTol, lipid, fixation, viability]
@@ -653,9 +668,14 @@ const VECTORS=[
   });
   // hover tooltip
   const cv=document.getElementById('evoChart');
-  const tip=document.createElement('div');
-  tip.style.cssText='position:absolute;display:none;background:#0a1420;border:1px solid #1d2b40;border-radius:8px;padding:.5rem .7rem;font-size:.75rem;font-family:JetBrains Mono,monospace;pointer-events:none;z-index:5';
-  cv.parentElement.style.position='relative'; cv.parentElement.appendChild(tip);
+  cv.parentElement.style.position='relative';
+  let tip=cv.parentElement.querySelector('.evo-tip');
+  if(!tip){
+    tip=document.createElement('div');
+    tip.className='evo-tip';
+    tip.style.cssText='position:absolute;display:none;background:#0a1420;border:1px solid #1d2b40;border-radius:8px;padding:.5rem .7rem;font-size:.75rem;font-family:JetBrains Mono,monospace;pointer-events:none;z-index:5';
+    cv.parentElement.appendChild(tip);
+  }
   cv.addEventListener('mousemove',e=>{
     const r=cv.getBoundingClientRect();
     const gx=Math.max(0,Math.min(500,(e.clientX-r.left-pL)/iw*500));
@@ -667,7 +687,7 @@ const VECTORS=[
     tip.style.top=(e.clientY-r.top-10)+'px';
   });
   cv.addEventListener('mouseleave',()=>tip.style.display='none');
-})();
+}
 /* ---------- horn curve ---------- */
 (function(){
   const mk=(id,top)=>{
@@ -694,7 +714,11 @@ document.querySelectorAll('.copy-btn').forEach(b=>{
     });
   });
 });
-window.addEventListener('resize',()=>location.reload());
+window.addEventListener('resize',()=>{
+  const active=document.querySelector('.ptabs button.active');
+  const k=active?active.dataset.ptab:'p1';
+  drawn[k]=false; drawPanel(k);
+});
 </script>
 </body>
 </html>
