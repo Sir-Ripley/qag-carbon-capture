@@ -102,6 +102,9 @@ python3 tools/pillar1_acoustic_sweep.py # P₀*=17.07 MPa, kLa=3.8267 s⁻¹, 2.
   - `virology/master-pathogen-index.json` · `virology/research-platform-v2.csv` · `virology/viral-decoherence-index-v2.csv` · `virology/virology-database.csv`
   - The showcase site fetches Pillar 2/3 datasets live from this API and falls back to embedded data if unreachable.
 - **qag-shared-data** — Vercel Blob store (public, `iad1`) for binary assets (deck, PDFs, large datasets).
+  - Slide deck (20.7 MB): https://x5vkaloqqnlnkt9t.public.blob.vercel-storage.com/carbon-capture/deck/Bio-Acoustic-Carbon-Capture-sZJLpjbTJZ3VQPYfH85r0XaGNZmemS.pptx
+  - Blueprint V3 PDF: https://x5vkaloqqnlnkt9t.public.blob.vercel-storage.com/carbon-capture/blueprints/blueprint-v3-mxpjxP0MvfyiVSSAYEEZangY3mh5c1.pdf
+  - Blueprint V2 PDF: https://x5vkaloqqnlnkt9t.public.blob.vercel-storage.com/carbon-capture/blueprints/blueprint-v2-1qfD2vpNeAg95n5XblZ6nFmfLhQtpi.pdf
 
 ## Related work
 
