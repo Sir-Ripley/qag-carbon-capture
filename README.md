@@ -95,6 +95,14 @@ python3 tools/qag_virology_sim.py        # 10-vector screening table
 python3 tools/pillar1_acoustic_sweep.py # P₀*=17.07 MPa, kLa=3.8267 s⁻¹, 2.404 g/g/h
 ```
 
+## Data backends
+
+- **qag-data API** — shared JSON data API (CORS `*`): https://qag-data.vercel.app/index.json
+  - `carbon-capture/vectors.json` · `carbon-capture/evolution-run.json` · `carbon-capture/pillar1-optimum.json`
+  - `virology/master-pathogen-index.json` · `virology/research-platform-v2.csv` · `virology/viral-decoherence-index-v2.csv` · `virology/virology-database.csv`
+  - The showcase site fetches Pillar 2/3 datasets live from this API and falls back to embedded data if unreachable.
+- **qag-shared-data** — Vercel Blob store (public, `iad1`) for binary assets (deck, PDFs, large datasets).
+
 ## Related work
 
 - QAG Virology pipeline & demo: [Sir-Ripley/qag-virology](https://github.com/Sir-Ripley/qag-virology)
